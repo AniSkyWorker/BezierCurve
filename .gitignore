@@ -243,3 +243,9 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/cg_lab1/SDL2.dll
+/cg_lab1/glew32.dll
+/cg_lab1/SolarSystem.h
+/cg_lab1/SolarSystem.cpp
+/cg_lab1/EllipticOrbit.h
+/cg_lab1/EllipticOrbit.cpp

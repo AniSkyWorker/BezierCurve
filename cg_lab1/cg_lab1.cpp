@@ -1,11 +1,16 @@
-// cg_lab1.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
+#include "Window.h"
+#include <SDL2/SDL.h>
 
-
-int main()
+int main(int, char *[])
 {
-    return 0;
+	glewInit();
+
+	CWindow window;
+	window.Show({ WINDOW_WIDTH, WINDOW_HEIGTH});
+	window.DoGameLoop();
+
+	return 0;
 }
+
 
