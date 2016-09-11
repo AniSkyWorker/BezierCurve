@@ -1,4 +1,5 @@
 #pragma once
+
 class CCoordinateSystem
 {
 public:
@@ -7,6 +8,6 @@ public:
 
 private:
 	int m_wWidth;
-	int m_wHeght;
+	int m_wHeight;
 };
 

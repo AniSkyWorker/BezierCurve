@@ -4,45 +4,27 @@ namespace
 {
 const float MAX_STEPS = 25.0f;
 }
+
 void CBezierCurve::Draw()
 {
-	static float rotateY = 0.0f;    // Статическая переменная для вращени
-
-									// Ниже мы нарисуем кривую Безье с четырьмя контрольными точками.
-									// Затем, используя GL_LINES, нарисуем сегменты линий для этой кривой.
-									// Вы можете использовать клавиши ВЛЕВО/ВПРАВО, чтобы двигать сферу
-									// вдоль кривой.
 	glColor3f(0.f, 0.f, 0.f);
-
-	glm::fvec2 vPoint = { 0.0f, 0.0f };   // инициализируем CVector3 для хранения точек
-
-										// Просим OpenGL рендерить линию толщиной в 1.5
-
-	glLineWidth(1.5);
-
+	glLineWidth(5.f);
 
 	glBegin(GL_LINE_STRIP);
 
-
-	for (float t = 0; t <= (1 + (1.0f / MAX_STEPS)); t += 1.0f / MAX_STEPS)
+	for (float t = 0; t <= (1 + (1.0f / MAX_STEPS)); t += (1.0f / MAX_STEPS))
 	{
-		// Передаём 4 наших точки. Также передаём "t", текущее время от 0 до 1.
-		// Если передано 0 - получаем стартовую точку линии, если 1 - конечную.
-		// Всё, что между ними - точки на линии, например, 0.5 - точка в центре
-		// кривой.
-
-		// Получаем текущую точку на линии
-		vPoint = PointOnCurve(m_startPoint, m_endPoint, m_fControlPoin, m_sControlPoint, t);
-
-		// Рисуем текущую точку на расстоянии "t" вдоль по линии.
-		glVertex2f(vPoint.x, vPoint.y);
+		auto point = PointOnCurve(m_startPoint, m_endPoint, m_fControlPoin, m_sControlPoint, t);
+		glVertex2f(point.x, point.y);
 	}
 
 	glEnd();
 
+	glColor3f(255.f, 0.f, 0.f);
+	glLineWidth(3.f);
+
 	glBegin(GL_LINE_STRIP);
 
-	glColor3f(255, 255, 0);
 	glVertex2f(m_startPoint.x, m_startPoint.y);
 	glVertex2f(m_fControlPoin.x, m_fControlPoin.y);
 	glVertex2f(m_sControlPoint.x, m_sControlPoint.y);
@@ -53,35 +35,15 @@ void CBezierCurve::Draw()
 
 glm::fvec2 CBezierCurve::PointOnCurve(glm::fvec2 p1, glm::fvec2 p2, glm::fvec2 p3, glm::fvec2 p4, float t)
 {
-	float var1, var2, var3;
-	glm::fvec2 vPoint = { 0.0f, 0.0f };
-
-	// Вот соль этого урока. Наже - формула для четырёх точек кривой безье:
 	// B(t) = P1 * ( 1 - t )^3 + P4 * 3 * t * ( 1 - t )^2 + P3 * 3 * t^2 * ( 1 - t ) + P2 * t^3
-	// 
-	// Да, согласен, это не слишком простая формула, но зато она очень прямолинейна!
-	// Если вы были внимательны, вы увидели, что элементы в ней повторяются.
-	// "t" - время от 0 до 1. Вы можете подумать, что это дестанция протяжения кривой,
-	// и вы будете правы. P1 - P4 это 4 контрольные точки. Каждая из них имеет ассоциированные
-	// с ней (x, y, z). Вы заметили, что в функции встречаются несколько выражений (1 - t)?
-	// Чтобы немного подчистить наш код, мы занесём одинаковые выражения в переменную.
-	// Это немного поможет не запутатся в повторяющемся коде.
 
-	// Занесём в переменную (1-t):
-	var1 = 1 - t;
+	auto coef = 1 - t;
 
-	// Занесём в переменную (1-t)^3
-	var2 = var1 * var1 * var1;
+	auto a = pow(coef, 3);
+	auto b = 3 * t * pow(coef, 2);
+	auto c = 3 * coef * pow(t, 2);
+	auto d = pow(t, 3);
 
-	// Занесем в переменную t^3
-	var3 = t * t * t;
-
-	// Теперь, обрезав некоторые рассчеты, просто следуем нашей функции.
-	// Я не буду вдаватся в детали рассчетов кривых безье, поскольку есть места в интернете,
-	// где всё расписано очень подробно. Ниже я их приведу.
-	vPoint.x = var2*p1.x + 3 * t*var1*var1*p4.x + 3 * t*t*var1*p3.x + var3*p2.x;
-	vPoint.y = var2*p1.y + 3 * t*var1*var1*p4.y + 3 * t*t*var1*p3.y + var3*p2.y;
-
-	// Теперь у нас есть точка на кривой, вернём её.
-	return(vPoint);
+	return { a *p1.x + b * p4.x + c * p3.x + d * p2.x
+		, a * p1.y + b * p4.y + c * p3.y + d * p2.y };
 }

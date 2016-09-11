@@ -9,6 +9,7 @@ namespace
 	const int WINDOW_WIDTH = 600;
 	const int WINDOW_HEIGTH = 600;
 }
+
 class CWindow : public CAbstractInputControlWindow
 {
 public:
