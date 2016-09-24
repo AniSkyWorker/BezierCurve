@@ -24,3 +24,4 @@
 #include <vector>
 #include <random>
 #include <algorithm>
+#include <boost/noncopyable.hpp>

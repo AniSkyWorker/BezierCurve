@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "BezierCurve.h"
+
+using namespace glm;
+
 namespace
 {
 const float MAX_STEPS = 25.0f;
@@ -7,20 +10,20 @@ const float MAX_STEPS = 25.0f;
 
 void CBezierCurve::Draw()
 {
-	glColor3f(0.f, 0.f, 0.f);
+	glColor3f(0.f, 0.f, 0.f); //BLACK color
 	glLineWidth(5.f);
 
 	glBegin(GL_LINE_STRIP);
-
-	for (float t = 0; t <= (1 + (1.0f / MAX_STEPS)); t += (1.0f / MAX_STEPS))
+	
+	for (float t = 0.f, delta = 1.0f / MAX_STEPS; t <= (1 + delta); t += delta)
 	{
-		auto point = PointOnCurve(m_startPoint, m_endPoint, m_fControlPoin, m_sControlPoint, t);
+		auto point = GetPointOnCurve(m_startPoint, m_endPoint, m_fControlPoin, m_sControlPoint, t);
 		glVertex2f(point.x, point.y);
 	}
 
 	glEnd();
 
-	glColor3f(255.f, 0.f, 0.f);
+	glColor3ub(255, 0, 0); // RED color
 	glLineWidth(3.f);
 
 	glBegin(GL_LINE_STRIP);
@@ -33,7 +36,7 @@ void CBezierCurve::Draw()
 	glEnd();
 }
 
-glm::fvec2 CBezierCurve::PointOnCurve(glm::fvec2 p1, glm::fvec2 p2, glm::fvec2 p3, glm::fvec2 p4, float t)
+fvec2 CBezierCurve::GetPointOnCurve(fvec2 p1, fvec2 p2, fvec2 p3, fvec2 p4, float t) const
 {
 	// B(t) = P1 * ( 1 - t )^3 + P4 * 3 * t * ( 1 - t )^2 + P3 * 3 * t^2 * ( 1 - t ) + P2 * t^3
 

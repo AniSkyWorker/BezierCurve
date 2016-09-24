@@ -1,6 +1,6 @@
 #pragma once
 
-class CCoordinateSystem
+class CCoordinateSystem : private boost::noncopyable
 {
 public:
 	CCoordinateSystem(int wWidth, int wHeight);

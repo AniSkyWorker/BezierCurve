@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Window.h"
-#include "BezierCurve.h"
 
 namespace
 {
