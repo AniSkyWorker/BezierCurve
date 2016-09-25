@@ -5,8 +5,8 @@
 
 namespace
 {
-	const int WINDOW_WIDTH = 600;
-	const int WINDOW_HEIGTH = 320;
+	const float WINDOW_WIDTH = 600;
+	const float WINDOW_HEIGTH = 320;
 }
 
 class CWindow : public CAbstractInputControlWindow

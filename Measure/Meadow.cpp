@@ -4,6 +4,7 @@
 
 using namespace glm;
 using namespace color;
+
 namespace
 {
 
@@ -85,8 +86,8 @@ void DrawFlower(float xCenter, float yCenter, float petalCount, float r = 1.f, c
 	{
 		float fixedAngle = (fabsf(angle - float(2 * M_PI)) < 1e-4f) ? 0 : angle;
 
-		float radius = 0.5f * r * (30 - 10)
-			* cosf(angle * petalCount - 1) + 10;
+		float radius = 0.5f * r * (30.f - 10.f)
+			* cosf(angle * petalCount - 1) + 10.f;
 		float x = radius * cosf(fixedAngle);
 		float y = radius * sinf(fixedAngle);
 
@@ -106,55 +107,110 @@ void DrawFlower(float xCenter, float yCenter, float petalCount, float r = 1.f, c
 
 void DrawCloud(float xCenter, float yCenter, const glm::vec4 & color = WHITE)
 {
+	vec3 offset = { xCenter, yCenter, 0.f };
+	mat4 transform = translate(mat4(), offset);
+
+	glPushMatrix();
+	glLoadMatrixf(glm::value_ptr(transform));
+
 	float rx = 20.f;
 	float ry = 10.f;
 	float dimension = 3.f;
 
 	glColor3f(color.r, color.g, color.b);
-	FillEllipse(xCenter,yCenter, rx,ry);
-	FillEllipse(xCenter, yCenter +1.5f * ry, rx + 5, ry + 5);
-	FillEllipse(xCenter + 1.5f * rx, yCenter, rx + 2, ry + 2);
-	FillEllipse(xCenter + 1.5f * rx, yCenter + 1.5f * ry , rx, ry);
+	FillEllipse(0.f, 0.f, rx,ry);
+	FillEllipse(0.f, 1.5f * ry, rx + 5, ry + 5);
+	FillEllipse(1.5f * rx, 0.f, rx + 2, ry + 2);
+	FillEllipse(1.5f * rx, 1.5f * ry , rx, ry);
+
+	glPopMatrix();
+}
+
+void DrawButterfly(float xCenter, float yCenter, float size = 16.f, const vec4 & color = QUIET_RED, const vec4 & bColor = BLACK, const vec4 & wColor = BLUE)
+{
+	vec3 offset = { xCenter, yCenter, 0.f };
+	mat4 transform = translate(mat4(), offset);
+
+	glPushMatrix();
+	glLoadMatrixf(glm::value_ptr(transform));
+
+	DrawCannabis(0.f, 0.f, size, 6.f, color);
+	glColor3f(bColor.r, bColor.g, bColor.b);
+	FillEllipse(0.f, 3.f, 1.f, size / 4.f);
+	glColor3f(wColor.r, wColor.g, wColor.b);
+	FillCircle(- size / 4.f, 0.f, size / 16.f);
+	FillCircle(size / 4.f, size / 16.f, size / 16.f);
+	FillCircle(size / 4.f - 1, size / 4.f + size / 16.f, size / 16.f);
+	FillCircle(- size / 4.f, size / 4.f, size / 16.f);
+
+	glPopMatrix();
+}
+
+void DrawRabbit(float xCenter, float yCenter, float bSize = 15.f, const vec4 & bColor = WHITE, const vec4 & eColor = RED)
+{
+	vec3 offset = { xCenter, yCenter, 0.f };
+	mat4 transform = translate(mat4(), offset);
+
+	glPushMatrix();
+	glLoadMatrixf(glm::value_ptr(transform));
+
+	glColor3f(bColor.r, bColor.g, bColor.b);
+	FillEllipse(0.f, 0.f, bSize, bSize / 1.2f);
+	FillCircle(bSize, bSize / 7.5f, bSize / 2.f);
+	FillEllipse(bSize / 1.25f, -bSize / 1.875f, bSize / 10.f, bSize);
+	FillEllipse(bSize, -bSize / 1.875f, bSize / 10.f, bSize / 1.2f);
+	glColor3f(eColor.r, eColor.g, eColor.b);
+	FillCircle(bSize * 1.2f, bSize / 7.5f, bSize / 8.5f);
+	glColor3f(BLACK.r, BLACK.g, BLACK.b);
+	FillEllipse(3.f * bSize / 2.f, bSize / 7.5f, bSize / 14.f, bSize / 12.f);
+
+	glPopMatrix();
 }
 
 }
 
-Meadow::Meadow(int wWidth, int wHeight) : m_wWidth(wWidth), m_wHeight(wHeight)
+Meadow::Meadow(float wWidth, float wHeight) : m_wWidth(wWidth), m_wHeight(wHeight)
 {
 }
 
 void Meadow::Draw()
 {
-	glColor3f(0.f, 0.f, 1.f);
-	glRecti(0, 0, m_wWidth, m_wHeight / 2);
+	glColor3f(BLUE.r, BLUE.g, BLUE.b);
+	glRectf(0.f, 0.f, m_wWidth, m_wHeight / 2.f);
 
 	glColor3f(QUIET_GREEN.r, QUIET_GREEN.g, QUIET_GREEN.b);
-	glRecti(0, m_wHeight / 2, m_wWidth, m_wHeight);
+	glRectf(0.f, m_wHeight / 2.f, m_wWidth, m_wHeight);
 
 	glColor3f(1.f, 1.f, 0.f);
 	FillCircle(100, 100, 50);
 
-	DrawCannabis(20.f, 180.f, 50.f, 7.f, ORANGE);
-	DrawCannabis(350.f, 220.f, 50.f, 7.f, ORANGE);
-	DrawCannabis(200.f, 320.f, 50.f);
-	DrawCannabis(560.f, 180.f, 80.f);
-	DrawCannabis(500.f, 150.f, 20.f);
-	DrawCannabis(300.f, 152.f, 20.f);
-	DrawCannabis(290.f, 150.f, 25.f);
-	DrawCannabis(m_wWidth * 0.4f, m_wHeight * 0.7f, 25.f, 6.f, QUIET_RED);
-	DrawCannabis(m_wWidth * 0.25f, m_wHeight * 0.5f, 25.f, 6.f, QUIET_RED);
+	DrawRabbit(m_wWidth * 0.577f, m_wHeight * 0.73f);
+	DrawRabbit(m_wWidth * 0.37f, m_wHeight * 0.48f, 8.f);
+
+	DrawCannabis(m_wWidth * 0.04f, m_wHeight * 0.5f, 50.f, 7.f, ORANGE);
+	DrawCannabis(m_wWidth * 0.56f, m_wHeight * 0.7f, 50.f, 7.f, ORANGE);
+	DrawCannabis(m_wWidth * 0.4f, m_wHeight, 50.f);
+	DrawCannabis(m_wWidth * 0.93f, m_wHeight * 0.57f, 80.f);
+	DrawCannabis(m_wWidth * 0.85f, m_wHeight * 0.47f, 20.f);
+	DrawCannabis(m_wWidth * 0.46f, m_wHeight * 0.48f, 20.f);
+	DrawCannabis(m_wWidth * 0.45f, m_wHeight * 0.47f, 25.f);
 	DrawCannabis(m_wWidth * 0.3f, m_wHeight * 0.6f, 35.f);
 
-	DrawFlower(300.f, 250.f, 3.f);
-	DrawFlower(100.f, 150.f, 8.f);
-	DrawFlower(400.f, 200.f, 5.f);
+	DrawFlower(m_wWidth * 0.48f, m_wHeight * 0.8f, 3.f);
+	DrawFlower(m_wWidth * 0.17f, m_wHeight * 0.45f, 8.f);
+	DrawFlower(m_wWidth * 0.68f, m_wHeight * 0.65f, 5.f);
 	DrawFlower(m_wWidth * 0.8f, m_wHeight * 0.5f, 5.f, 1.f, YELLOW, QUIET_BLUE, GREEN);
 	DrawFlower(m_wWidth * 0.2f, m_wHeight * 0.6f, 5.f, 1.f, YELLOW, QUIET_BLUE, GREEN);
 	
-	DrawCloud(150, 90);
-	DrawCloud(50, 40);
-	DrawCloud(320, 10);
-	DrawCloud(500, 40);
+	DrawCloud(m_wWidth * 0.25f, m_wHeight * 0.28f);
+	DrawCloud(m_wWidth * 0.08f, m_wHeight * 0.125f);
+	DrawCloud(m_wWidth * 0.533f, m_wHeight * 0.03);
+	DrawCloud(m_wWidth * 0.833f, m_wHeight * 0.125f);
+
+	DrawButterfly(m_wWidth * 0.5f, m_wHeight * 0.8f);
+	DrawButterfly(m_wWidth * 0.18f, m_wHeight * 0.42f, 13.f, BLUE, GREEN, WHITE);
+	DrawButterfly(m_wWidth * 0.14f, m_wHeight * 0.53f, 13.f, BLUE, GREEN, WHITE);
+	DrawButterfly(m_wWidth * 0.75f, m_wHeight * 0.5f, 20.f, ORANGE, BLACK, RED);
 
 	DrawCannabis(0.f, m_wHeight, 300.f, 200.f, QUIET_YELLOW);
 	DrawCannabis(m_wWidth, m_wHeight, 300.f, 200.f, QUIET_YELLOW);

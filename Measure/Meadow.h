@@ -3,11 +3,11 @@
 class Meadow
 {
 public:
-	Meadow(int wWidth, int wHeight);
+	Meadow(float wWidth, float wHeight);
 	void Draw();
 
 private:
-	int m_wWidth;
-	int m_wHeight;
+	float m_wWidth;
+	float m_wHeight;
 };
 
