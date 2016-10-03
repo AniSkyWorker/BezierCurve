@@ -4,7 +4,7 @@
 
 
 CWindow::CWindow()
-	: m_measure(WINDOW_WIDTH, WINDOW_HEIGTH)
+	: m_meadow(WINDOW_WIDTH, WINDOW_HEIGTH)
 {
     SetBackgroundColor(color::WHITE);
     glEnable(GL_POINT_SMOOTH);
@@ -19,11 +19,7 @@ void CWindow::OnDrawWindow(const glm::ivec2 &size)
 {
     m_windowSize = size;
     SetupView();
-	m_measure.Draw();
-}
-
-void CWindow::OnKeyDown(const SDL_KeyboardEvent &event)
-{
+	m_meadow.Draw();
 }
 
 void CWindow::SetupView()

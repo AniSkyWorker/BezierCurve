@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BezierCurve", "cg_lab1\cg_lab1.vcxproj", "{7175ED6D-FA7A-4A40-82BD-7871D92C3ED6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Measure", "Measure\Measure.vcxproj", "{ABE82F85-CC60-41D9-9B54-6EB206ADC471}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Meadow", "Measure\Measure.vcxproj", "{ABE82F85-CC60-41D9-9B54-6EB206ADC471}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3DShape", "3DShape\3DShape.vcxproj", "{C14C0478-58EA-4FB2-A70C-D7B640E362BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,22 @@ Global
 		{ABE82F85-CC60-41D9-9B54-6EB206ADC471}.Release|x64.ActiveCfg = Release|Win32
 		{ABE82F85-CC60-41D9-9B54-6EB206ADC471}.Release|x86.ActiveCfg = Release|Win32
 		{ABE82F85-CC60-41D9-9B54-6EB206ADC471}.Release|x86.Build.0 = Release|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Debug|Win32.Build.0 = Debug|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Debug|x64.ActiveCfg = Debug|x64
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Debug|x64.Build.0 = Debug|x64
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Debug|x86.ActiveCfg = Debug|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Debug|x86.Build.0 = Debug|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Release|Win32.ActiveCfg = Release|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Release|Win32.Build.0 = Release|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Release|x64.ActiveCfg = Release|x64
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Release|x64.Build.0 = Release|x64
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Release|x86.ActiveCfg = Release|Win32
+		{C14C0478-58EA-4FB2-A70C-D7B640E362BB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

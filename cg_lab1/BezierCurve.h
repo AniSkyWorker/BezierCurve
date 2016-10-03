@@ -10,6 +10,9 @@ public:
 		, m_endPoint(endPoint)
 	{}
 	void Draw();
+
+	void SetPosition(glm::vec2 & point, const glm::vec2 & position);
+	std::unique_ptr<glm::vec2*> HitTest(const glm::vec2 & point);
 private:
 	glm::fvec2 GetPointOnCurve(glm::fvec2 p1, glm::fvec2 p2, glm::fvec2 p3, glm::fvec2 p4, float t) const;
 
