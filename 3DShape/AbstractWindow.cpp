@@ -5,7 +5,6 @@
 namespace
 {
 const char WINDOW_TITLE[] = "SDL2/OpenGL Demo";
-std::once_flag g_glewInitOnceFlag;
 
 // Используем unique_ptr с явно заданной функцией удаления вместо delete.
 using SDLWindowPtr = std::unique_ptr<SDL_Window, void(*)(SDL_Window*)>;
@@ -46,9 +45,6 @@ public:
         m_size = size;
 
         // Выбираем Compatiblity Profile
-        // Установка атрибутов SDL_GL должна выполняться до создания окна,
-        // иначе на некоторых видеокартах создание контекста завершится
-        // OpenGL с ошибкой.
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
         // Специальное значение SDL_WINDOWPOS_CENTERED вместо x и y заставит SDL2
         // разместить окно в центре монитора по осям x и y.
@@ -63,7 +59,6 @@ public:
             std::cerr << "OpenGL context initialization failed" << std::endl;
             std::abort();
         }
-        InitGlewOnce();
     }
 
     glm::ivec2 GetWindowSize() const
@@ -81,11 +76,6 @@ public:
         m_clearColor = color;
     }
 
-    void SetTitle(const std::string &title)
-    {
-        SDL_SetWindowTitle(m_pWindow.get(), title.c_str());
-    }
-
     void Clear()const
     {
         // Заливка кадра цветом фона средствами OpenGL
@@ -98,7 +88,7 @@ public:
         // Вывод нарисованного кадра в окно на экране.
         // При этом система отдаёт старый буфер для рисования нового кадра.
         // Обмен двух буферов вместо создания новых позволяет не тратить ресурсы впустую.
-		SDL_GL_SwapWindow(m_pWindow.get());
+        SDL_GL_SwapWindow(m_pWindow.get());
     }
 
     void DumpGLErrors()
@@ -162,19 +152,6 @@ private:
         }
     }
 
-    void InitGlewOnce()
-    {
-        // Вызываем инициализацию GLEW только один раз за время работы приложения.
-        std::call_once(g_glewInitOnceFlag, []() {
-            glewExperimental = GL_TRUE;
-            if (GLEW_OK != glewInit())
-            {
-                std::cerr << "GLEW initialization failed, aborting." << std::endl;
-                std::abort();
-            }
-        });
-    }
-
     SDLWindowPtr m_pWindow;
     SDLGLContextPtr m_pGLContext;
     glm::ivec2 m_size;
@@ -194,6 +171,7 @@ CAbstractWindow::~CAbstractWindow()
 void CAbstractWindow::Show(const glm::ivec2 &size)
 {
     m_pImpl->Show(size);
+    OnWindowInit(size);
 }
 
 void CAbstractWindow::DoGameLoop()
@@ -226,9 +204,4 @@ void CAbstractWindow::DoGameLoop()
 void CAbstractWindow::SetBackgroundColor(const glm::vec4 &color)
 {
     m_pImpl->SetBackgroundColor(color);
-}
-
-void CAbstractWindow::SetTitle(const std::string &title)
-{
-    m_pImpl->SetTitle(title);
 }

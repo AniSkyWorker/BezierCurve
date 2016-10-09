@@ -148,6 +148,8 @@ copy $(sdk)\glew-2.0.0\bin\Release\Win32\glew32.dll $(OutpuDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractWindow.h" />
+    <ClInclude Include="Bodies.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DispatchEvent.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -156,7 +158,10 @@ copy $(sdk)\glew-2.0.0\bin\Release\Win32\glew32.dll $(OutpuDir)</Command>
   <ItemGroup>
     <ClCompile Include="3DShape.cpp" />
     <ClCompile Include="AbstractWindow.cpp" />
+    <ClCompile Include="Bodies.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DispatchEvent.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

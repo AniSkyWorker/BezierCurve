@@ -1,92 +1,75 @@
 #include "stdafx.h"
 #include "Window.h"
+#include <boost/range/algorithm/find_if.hpp>
+#include <boost/range/adaptor/reversed.hpp>
 
 namespace
 {
-const glm::vec4 BLACK = { 0, 0, 0, 1 };
-const  glm::vec4 WHITE = { 255, 255, 255, 1 };
+const glm::vec4 BLACK = {0, 0, 0, 1};
+const float CAMERA_INITIAL_ROTATION = 0;
+const float CAMERA_INITIAL_DISTANCE = 5.f;
 
-template<typename T>
-T GetMidPoint(T & vec, const T & vec2)
+void SetupOpenGLState()
 {
-	for (size_t i = 0; i < vec.length(); i++)
-	{
-		vec[i] = (vec[i] + vec2[i]) / 2.f;
-	}
-
-	return vec;
-}
-
-void DrawStar()
-{
-	std::vector<glm::vec3> vertices = 
-	{
-		{ 250, 225, -500 },
-		{ 350, 275, -200 },
-		{ 750, 225, -225 },
-		{ 500, 900, 0 }
-	};
-
-	auto lastPoint = vertices[0];
-
-	glBegin(GL_POINTS);
-	for (int i = 0; i <= 1000000; i++) 
-	{
-		lastPoint = GetMidPoint(lastPoint, vertices[rand() % 4]);
-		float intensity = (700 + lastPoint.z) / 500.0;
-		glColor3f(intensity, intensity, 0.25f);
-		glVertex3f(lastPoint.x, lastPoint.y, lastPoint.z);
-	}
-	glEnd();
-	glFlush();
+    // включаем механизмы трёхмерного мира.
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CCW);
+    glCullFace(GL_BACK);
 }
 }
 
 CWindow::CWindow()
+    : m_camera(CAMERA_INITIAL_ROTATION, CAMERA_INITIAL_DISTANCE)
 {
     SetBackgroundColor(BLACK);
-    glEnable(GL_DEPTH_TEST);
-    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+}
+
+void CWindow::OnWindowInit(const glm::ivec2 &size)
+{
+    (void)size;
+    SetupOpenGLState();
 }
 
 void CWindow::OnUpdateWindow(float deltaSeconds)
 {
+    m_camera.Update(deltaSeconds);
+    m_staticCube.Update(deltaSeconds);
 }
 
 void CWindow::OnDrawWindow(const glm::ivec2 &size)
 {
-    m_windowSize = size;
-    SetupView();
-	DrawStar();
+    SetupView(size);
+    m_staticCube.Draw();
 }
 
-void CWindow::SetupView()
+void CWindow::SetupView(const glm::ivec2 &size)
 {
-    const glm::mat4 matrix = glm::ortho<float>(0, float(WINDOW_WIDTH), float(WINDOW_HEIGTH), 0);
-    glViewport(0, 0, m_windowSize.x, m_windowSize.y);
+    glViewport(0, 0, size.x, size.y);
+
+    // Матрица вида возвращается камерой и составляет
+    // начальное значение матрицы GL_MODELVIEW.
+    glLoadMatrixf(glm::value_ptr(m_camera.GetViewTransform()));
+
+    // Матрица перспективного преобразования вычисляется функцией
+    // glm::perspective, принимающей угол обзора, соотношение ширины
+    // и высоты окна, расстояния до ближней и дальней плоскостей отсечения.
+    const float fieldOfView = glm::radians(70.f);
+    const float aspect = float(size.x) / float(size.y);
+    const float zNear = 0.01f;
+    const float zFar = 100.f;
+    const glm::mat4 proj = glm::perspective(fieldOfView, aspect, zNear, zFar);
     glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-    glLoadMatrixf(glm::value_ptr(matrix));
+    glLoadMatrixf(glm::value_ptr(proj));
+    glMatrixMode(GL_MODELVIEW);
 }
 
-void CWindow::OnDragBegin(const glm::vec2 &pos)
+void CWindow::OnKeyDown(const SDL_KeyboardEvent &event)
 {
-
+    m_camera.OnKeyDown(event);
 }
 
-void CWindow::OnDragMotion(const glm::vec2 &pos)
+void CWindow::OnKeyUp(const SDL_KeyboardEvent &event)
 {
-	if (m_draggingPoint != nullptr)
-	{
-		**m_draggingPoint = pos - m_dragOffset;
-	}
-}
-
-void CWindow::OnDragEnd(const glm::vec2 &pos)
-{
-	if (m_draggingPoint != nullptr)
-	{
-		**m_draggingPoint = pos - m_dragOffset;
-		m_draggingPoint = nullptr;
-	}
+    m_camera.OnKeyUp(event);
 }
