@@ -73,3 +73,16 @@ void CWindow::OnKeyUp(const SDL_KeyboardEvent &event)
 {
     m_camera.OnKeyUp(event);
 }
+
+void CWindow::OnDragBegin(const glm::vec2 &pos)
+{
+	m_camera.OnDragBegin(pos);
+}
+void CWindow::OnDragMotion(const glm::vec2 &pos)
+{
+	m_camera.OnDragMotion(pos);
+}
+void CWindow::OnDragEnd(const glm::vec2 &pos)
+{
+	m_camera.OnDragEnd(pos);
+}
