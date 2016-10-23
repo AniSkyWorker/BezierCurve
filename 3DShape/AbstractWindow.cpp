@@ -4,7 +4,7 @@
 
 namespace
 {
-const char WINDOW_TITLE[] = "SDL2/OpenGL Demo";
+const char WINDOW_TITLE[] = "Point3DSuperColoredVeryFlexibleCurpet";
 
 // Используем unique_ptr с явно заданной функцией удаления вместо delete.
 using SDLWindowPtr = std::unique_ptr<SDL_Window, void(*)(SDL_Window*)>;
@@ -12,6 +12,7 @@ using SDLGLContextPtr = std::unique_ptr<void, void(*)(SDL_GLContext)>;
 
 class CChronometer
 {
+
 public:
     CChronometer()
         : m_lastTime(std::chrono::system_clock::now())

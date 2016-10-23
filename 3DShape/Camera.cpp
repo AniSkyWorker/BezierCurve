@@ -115,7 +115,6 @@ glm::mat4 CCamera::GetViewTransform() const
 {
     glm::vec3 direction = {-1.f, 0.f, 0.5f};
     // Нормализуем вектор (приводим к единичной длине),
-    // затем поворачиваем вокруг оси Z.
     // см. http://glm.g-truc.net/0.9.3/api/a00199.html
 	direction = glm::rotateZ(glm::normalize(direction), m_rotationRadians.x);
 	direction = glm::rotateY(glm::normalize(direction), m_rotationRadians.y);
