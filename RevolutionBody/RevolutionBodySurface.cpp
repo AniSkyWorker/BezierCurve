@@ -12,14 +12,11 @@ glm::vec3 GetPosition(const Function3D &fn, float x, float z)
 
 // вычисляет нормали численным методом,
 // с помощью векторного произведения.
-void CalculateNormals(const Function3D &fn, std::vector<SVertexP3N> &vertices, float step)
+void CalculateNormals(std::vector<SVertexP3N> &vertices)
 {
-	for (SVertexP3N &v : vertices)
+	for (size_t i = 0; i < vertices.size() - 2; i++)
 	{
-		const glm::vec3 &position = v.position;
-		glm::vec3 dir1 = GetPosition(fn, position.x, position.z + step) - position;
-		glm::vec3 dir2 = GetPosition(fn, position.x + step, position.z) - position;
-		v.normal = glm::normalize(glm::cross(dir1, dir2));
+		vertices[i].normal = glm::normalize(glm::cross(vertices[i + 1].position, vertices[i + 2].position));
 	}
 }
 
@@ -85,15 +82,15 @@ void CRevolutionBodySurface::Tesselate(const glm::vec2 &rangeX, const glm::vec2 
 	// вычисляем позиции вершин.
 	for (unsigned ci = 0; ci < columnCount; ++ci)
 	{
-		const float x = rangeX.x + step * float(ci);
+		const float u = rangeX.x + step * float(ci);
 		for (unsigned ri = 0; ri < rowCount; ++ri)
 		{
-			const float z = rangeZ.x + step * float(ri);
-			m_vertices.push_back(SVertexP3N(m_fn(x, z)));
+			const float v = rangeZ.x + step * float(ri);
+			m_vertices.push_back(SVertexP3N(m_fn(u, v)));
 		}
 	}
-	CalculateNormals(m_fn, m_vertices, step);
 	CalculateTriangleStripIndicies(m_indicies, columnCount, rowCount);
+	CalculateNormals( m_vertices);
 }
 
 void CRevolutionBodySurface::Draw() const

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\AbstractWindowClient.cpp" />
+    <ClCompile Include="src\ArrayObject.cpp" />
+    <ClCompile Include="src\BufferObject.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\FilesystemUtils.cpp" />
+    <ClCompile Include="src\FloatRect.cpp" />
+    <ClCompile Include="src\Lights.cpp" />
+    <ClCompile Include="src\ProgramInfo.cpp" />
+    <ClCompile Include="src\ProgramUniform.cpp" />
+    <ClCompile Include="src\ShaderProgram.cpp" />
+    <ClCompile Include="src\Texture2D.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
+    <ClCompile Include="src\VertexAttribute.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="3rd_party\tinyxml2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\AbstractWindowClient.h" />
+    <ClInclude Include="src\ArrayObject.h" />
+    <ClInclude Include="src\BufferObject.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\FilesystemUtils.h" />
+    <ClInclude Include="src\FloatRect.h" />
+    <ClInclude Include="src\Lights.h" />
+    <ClInclude Include="src\ProgramInfo.h" />
+    <ClInclude Include="src\ProgramUniform.h" />
+    <ClInclude Include="src\ShaderProgram.h" />
+    <ClInclude Include="src\Texture2D.h" />
+    <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\VertexAttribute.h" />
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\libchapter3_private.h" />
+    <ClInclude Include="3rd_party\tinyxml2.h" />
+    <ClInclude Include="libchapter3.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{60EC47E7-44DC-350A-B41F-11DF831A9DFC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{C74E6BED-9E20-39A8-B726-47FCD00FDDB7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
